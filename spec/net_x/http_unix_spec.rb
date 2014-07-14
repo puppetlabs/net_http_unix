@@ -4,6 +4,7 @@ require 'tempfile'
 
 describe NetX::HTTPUnix do
   let(:socket_url) { "unix://#{@socket_path}" }
+  let(:get_request) { Net::HTTP::Get.new("/") }
 
   before :all do
     tmpfile = Tempfile.open('socket')
@@ -49,15 +50,31 @@ describe NetX::HTTPUnix do
   describe ".start" do
     it "accepts '127.0.0.1', 2000 host and port" do
       resp = described_class.start('127.0.0.1', 2000) do |http|
-        http.request(Net::HTTP::Get.new('/'))
+        http.request(get_request)
       end
       expect(resp.body).to eq("Hello from TCP server\n")
     end
 
     it "accepts unix:///path/to/socket URI" do
       resp = described_class.start(socket_url) do |http|
-        http.request(Net::HTTP::Get.new('/'))
+        http.request(get_request)
       end
+      expect(resp.body).to eq("Hello from UNIX server\n")
+    end
+  end
+
+  describe ".new" do
+    it "accepts '127.0.0.1', 2000 host and port" do
+      http = described_class.new("127.0.0.1", 2000)
+
+      resp = http.request(get_request)
+      expect(resp.body).to eq("Hello from TCP server\n")
+    end
+
+    it "accepts unix:///path/to/socket URI" do
+      http = described_class.new(socket_url)
+
+      resp = http.request(get_request)
       expect(resp.body).to eq("Hello from UNIX server\n")
     end
   end

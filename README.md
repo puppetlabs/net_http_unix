@@ -1,8 +1,8 @@
 # Net::HTTP::Unix
 
-This gem is a wrapper around Ruby's `Net::HTTP` interface that provides support
-for unix domain clients.  If you need to issue HTTP requests to a HTTP server
-listening on a local unix domain socket then this library is for you.
+This gem is a small wrapper around Ruby's `Net::HTTP` interface that provides
+support for unix domain sockets.  If you need to issue HTTP requests to a HTTP
+server listening on a local unix domain socket then this library is for you.
 
 ## Installation
 
@@ -20,7 +20,32 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use the library just like you would `Net::HTTP.start` and `Net::HTTP.new`, but
+with `NetX::HTTPUnix.start` and `NetX::HTTPUnix.new`.
+
+For example a traditional SSL client works as expected:
+
+```ruby
+require 'net_x/http_unix'
+req = Net::HTTP::Get.new("/status.json")
+client = NetX::HTTPUnix.new('github.com', 443)
+client.use_ssl = true
+client.verify_mode = OpenSSL::SSL::VERIFY_NONE
+resp = client.request(req)
+puts resp.body
+{"status":"ok","configuration_id":0}
+```
+
+And the corresponding `unix:///path/to/foo.sock` URI syntax:
+
+```ruby
+require 'net_x/http_unix'
+req = Net::HTTP::Get.new("/status.json")
+client = NetX::HTTPUnix.new('unix:///tmp/unicorn.sock')
+resp = client.request(req)
+puts resp.body
+{"status":"ok","configuration_id":0,"socket":true}
+```
 
 ## Contributing
 
