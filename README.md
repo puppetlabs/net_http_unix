@@ -31,7 +31,7 @@ with `NetX::HTTPUnix.start` and `NetX::HTTPUnix.new`.
 For example a traditional SSL client works as expected:
 
 ```ruby
-require 'net_x/http_unix'
+require 'net_http_unix'
 req = Net::HTTP::Get.new("/status.json")
 client = NetX::HTTPUnix.new('github.com', 443)
 client.use_ssl = true
@@ -44,7 +44,7 @@ puts resp.body
 And the corresponding `unix:///path/to/foo.sock` URI syntax:
 
 ```ruby
-require 'net_x/http_unix'
+require 'net_http_unix'
 req = Net::HTTP::Get.new("/status.json")
 client = NetX::HTTPUnix.new('unix:///tmp/unicorn.sock')
 resp = client.request(req)
