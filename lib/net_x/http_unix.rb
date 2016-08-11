@@ -32,7 +32,7 @@ class HTTPUnix < Net::HTTP
   # to the use case of using a Unix Domain Socket.
   def connect_unix
     D "opening connection to #{@socket_path}..."
-    s = timeout(@open_timeout) { UNIXSocket.open(@socket_path) }
+    s = Timeout.timeout(@open_timeout) { UNIXSocket.open(@socket_path) }
     D "opened"
     @socket = BufferedIO.new(s)
     @socket.read_timeout = @read_timeout
