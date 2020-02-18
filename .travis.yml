@@ -1,10 +1,7 @@
+---
+os: linux
 language: ruby
-bundler_args: --without development
-script: "bundle exec rspec spec"
-notifications:
-  email: false
 rvm:
-  - 2.1.1
-  - 2.0.0
-  - 1.9.3
-  - 1.8.7-p374
+  - 2.5.7
+  - 2.4.9
+  - 2.1.9

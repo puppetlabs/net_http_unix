@@ -22,7 +22,7 @@ describe NetX::HTTPUnix do
           conn.puts "HTTP/1.1 200 OK"
           conn.puts ""
           conn.puts "Hello from TCP server"
-          conn.close
+          conn.close_write
         end
       end
     end
@@ -34,7 +34,7 @@ describe NetX::HTTPUnix do
           conn.puts "HTTP/1.1 200 OK"
           conn.puts ""
           conn.puts "Hello from UNIX server"
-          conn.close
+          conn.close_write
         end
       end
     end
